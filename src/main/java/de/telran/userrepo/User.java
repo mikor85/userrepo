@@ -9,6 +9,7 @@ import lombok.*;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class User {
     @Id
@@ -21,4 +22,5 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
     private String email;
+
 }

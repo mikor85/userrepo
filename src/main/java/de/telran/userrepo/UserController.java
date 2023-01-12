@@ -47,4 +47,21 @@ public class UserController {
         );
         return errors;
     }
+
+    // http://localhost:8080/users/1 -> "bob:bob@gmail.com"
+    @GetMapping("/users/{key}")
+    public ResponseEntity<String> nameEmailCombo(
+            @PathVariable(name = "key") Long key
+    ) {
+        return ResponseEntity.ok(
+                userRepository.findById(key).map(user -> user.getName() + ":" + user.getEmail())
+                        .orElse("")
+        );
+    }
+
+    // 1. Напишите функцию обрабатывающую запрос такого вида
+    // http://localhost:8080/upper?text=hello -> {"result": "HELLO"} (json)
+    // 2. Напишите тест, который это проверит
+
+
 }

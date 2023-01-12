@@ -15,8 +15,16 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest        // стартует спринг-приложение целиком
 @AutoConfigureMockMvc  // для создания MockMVC
+// MockMVC не выполняет http запросы
+// при старте проекта с аннотацией @AutoConfigureMockMvc веб-сервер не стартует
+
+// @SpringBootTest - стартует спринг-приложение целиком - интеграционное тестирование
+// @AutoConfigureMockMvc - стартует спринг-приложение, но не стартует веб-сервер
+// @WebMvcTest - стартует только веб-сервер и нужна для тестирования бизнес-логики в контроллерах
+// @DataJpaTest - стартует только часть проекта по работе с базой данных
+
 public class RepositoryIntegrationTest {
     // будем вызывать метода контроллера для добавления пользователей
     // проверим, что пользователи добавились в репозиторий
