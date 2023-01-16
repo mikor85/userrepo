@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -62,6 +63,12 @@ public class UserController {
     // 1. Напишите функцию обрабатывающую запрос такого вида
     // http://localhost:8080/upper?text=hello -> {"result": "HELLO"} (json)
     // 2. Напишите тест, который это проверит
-
-
+    @GetMapping("/upper")
+    public ResponseEntity<String> convertStringToUpperCase(
+            @RequestParam(name = "text") String text
+    ) {
+        return ResponseEntity.ok(
+                "{\"result\": \"" + text.toUpperCase(Locale.ROOT) + "\"}"
+        );
+    }
 }

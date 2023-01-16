@@ -82,12 +82,27 @@ public class TestUserController {
 
     @Test
     public void blankUserIsError() throws Exception {
-
+        mockMvc.perform(
+                        post("/users")
+                                .content("{\"name\":\"\", \"email\":\"bob@google.com\"}")
+                                .contentType("application/json")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.name", Is.is("Name is mandatory")))
+                .andDo(print());
     }
 
     @Test
     public void blankUserIsErrorAndNotValidEmailIsError() throws Exception {
-
+        mockMvc.perform(
+                        post("/users")
+                                .content("{\"name\":\"\", \"email\":\"google.com\"}")
+                                .contentType("application/json")
+                )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.name", Is.is("Name is mandatory")))
+                .andExpect(jsonPath("$.email", Is.is("Email should be valid")))
+                .andDo(print());
     }
 
     @Test
@@ -121,5 +136,16 @@ public class TestUserController {
         // больше никаких взаимодействий с userRepository не было,
         // и никакие его методы более не вызывались
         verifyNoMoreInteractions(userRepository);
+    }
+
+    @Test
+    public void testStringToUpperCase() throws Exception {
+        // http://localhost:8080/upper?text=hello -> {"result": "HELLO"} (json)
+        // 2. Напишите тест, который это проверит
+        mockMvc.perform(
+                        get("/upper?text=hello")
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"result\": \"HELLO\"}"));
     }
 }
